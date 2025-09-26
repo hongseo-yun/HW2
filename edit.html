@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit Task</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="my.css">
+</head>
+<body>
+  <div class="container">
+    <h2>과제 수정</h2>
+    <form id="editForm" onsubmit="return false;">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="title" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Due Day</label>
+        <input type="date" id="due" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Detail</label>
+        <input type="text" id="detail" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Finish</label>
+        <select id="finish" class="form-control">
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Priority</label>
+        <select id="priority" class="form-control">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <input type="text" id="category" class="form-control">
+      </div>
+      <button class="btn btn-success" onclick="submitEdit()">Submit</button>
+      <button class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
+    </form>
+  </div>
+
+  <script>
+    const index = localStorage.getItem('selectedIndex');
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    if (tasks[index]) {
+      document.getElementById('title').value = tasks[index].title;
+      document.getElementById('due').value = tasks[index].due;
+      document.getElementById('detail').value = tasks[index].detail;
+      document.getElementById('finish').value = tasks[index].finish;
+      document.getElementById('priority').value = tasks[index].priority;
+      document.getElementById('category').value = tasks[index].category;
+    }
+
+    function submitEdit() {
+      const title = document.getElementById('title').value.trim();
+      const due = document.getElementById('due').value.trim();
+      const detail = document.getElementById('detail').value.trim();
+      const finish = document.getElementById('finish').value.trim();
+      const priority = document.getElementById('priority').value.trim();
+      const category = document.getElementById('category').value.trim();
+
+      if (!title || !due || !detail || !finish || !priority || !category) {
+        alert("모든 필드를 입력해주세요!");
+        return;
+      }
+
+      if (!confirm("Do you want to edit this item?")) return;
+
+      tasks[index] = { title, due, detail, finish, priority, category };
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      window.location.href = "index.html";
+    }
+
+    function cancelEdit() {
+      window.location.href = "index.html";
+    }
+  </script>
+</body>
+</html>
