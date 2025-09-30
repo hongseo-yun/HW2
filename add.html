@@ -50,12 +50,30 @@
   </div>
 
   <script>
+    const initialTasks = [
+      "알고리즘 과제|2025-09-30|문제 1~3 해결|No|High|Study",
+      "자료구조 과제|2025-10-02|코드 작성 및 보고서|No|Medium|Study",
+      "웹 프로젝트|2025-10-05|프론트엔드 디자인 완성|Yes|High|Work",
+      "DB 과제|2025-10-07|ERD 다이어그램 제출|No|Low|Study",
+      "영어 에세이|2025-10-08|1500자 이상 작성|No|Low|Personal",
+      "통계 레포트|2025-10-09|데이터 분석 및 결과|Yes|Medium|Study",
+      "네트워크 과제|2025-10-10|TCP 시뮬레이션|No|High|Study",
+      "운영체제 과제|2025-10-12|프로세스 관리 보고서|No|Medium|Study",
+      "오픈소스 스튜디오|2025-10-13|CRUD 웹앱 완성|No|High|Work",
+      "수학 과제|2025-10-15|증명문제 풀이|Yes|Low|Study"
+    ];
+
     function getTasks() {
-      return JSON.parse(localStorage.getItem('tasks')) || [];
+      let data = localStorage.getItem('tasks');
+      if (!data) {
+        localStorage.setItem('tasks', initialTasks.join(";"));
+        return initialTasks.slice();
+      }
+      return data.split(";");
     }
 
     function saveTasks(tasks) {
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+      localStorage.setItem('tasks', tasks.join(";"));
     }
 
     function submitTask() {
@@ -72,10 +90,9 @@
       }
 
       const tasks = getTasks();
-      tasks.push({ title, due, detail, finish, priority, category });
+      tasks.push(`${title}|${due}|${detail}|${finish}|${priority}|${category}`);
       saveTasks(tasks);
 
-      alert("Item added");
       window.location.href = "index.html";
     }
 

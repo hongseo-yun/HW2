@@ -49,15 +49,16 @@
 
   <script>
     const index = localStorage.getItem('selectedIndex');
-    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const tasks = localStorage.getItem('tasks') ? localStorage.getItem('tasks').split(";") : [];
 
     if (tasks[index]) {
-      document.getElementById('title').value = tasks[index].title;
-      document.getElementById('due').value = tasks[index].due;
-      document.getElementById('detail').value = tasks[index].detail;
-      document.getElementById('finish').value = tasks[index].finish;
-      document.getElementById('priority').value = tasks[index].priority;
-      document.getElementById('category').value = tasks[index].category;
+      const parts = tasks[index].split("|");
+      document.getElementById('title').value = parts[0];
+      document.getElementById('due').value = parts[1];
+      document.getElementById('detail').value = parts[2];
+      document.getElementById('finish').value = parts[3];
+      document.getElementById('priority').value = parts[4];
+      document.getElementById('category').value = parts[5];
     }
 
     function submitEdit() {
@@ -73,10 +74,8 @@
         return;
       }
 
-      if (!confirm("Do you want to edit this item?")) return;
-
-      tasks[index] = { title, due, detail, finish, priority, category };
-      localStorage.setItem('tasks', JSON.stringify(tasks));
+      tasks[index] = `${title}|${due}|${detail}|${finish}|${priority}|${category}`;
+      localStorage.setItem('tasks', tasks.join(";"));
       window.location.href = "index.html";
     }
 
@@ -84,5 +83,3 @@
       window.location.href = "index.html";
     }
   </script>
-</body>
-</html>
