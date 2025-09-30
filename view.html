@@ -1,84 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>과제 상세보기</title>
+  <title>View Task</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <link rel="stylesheet" href="my.css">
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="#">Logo</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="#">About</a></li>
-      <li><a href="#">Projects</a></li>
-      <li><a href="#">Contact</a></li>
-    </ul>
-  </div>
-</nav>
-
 <div class="container">
-  <h1 class="text-center">과제 상세보기</h1>
-  <hr>
-  <div id="taskDetail" class="well"></div>
-  <div class="text-center">
-    <button class="btn btn-primary" onclick="goEdit()">Edit</button>
-    <button class="btn btn-danger" onclick="deleteTask()">Delete</button>
-    <a href="index.html" class="btn btn-default">Back</a>
+  <h2>과제 상세보기</h2>
+  <div id="taskDetail"></div>
+  <div style="margin-top: 15px;">
+    <button class="btn-primary" onclick="goEdit()">Edit</button>
+    <button class="btn-danger" onclick="deleteTask()">Delete</button>
+    <button class="btn-secondary" onclick="goList()">List</button>
   </div>
 </div>
 
 <script>
-  function getTasks() {
-    let data = localStorage.getItem('tasks');
-    return data ? data.split(";") : [];
-  }
+function getTasks() {
+  return localStorage.getItem('tasks') ? localStorage.getItem('tasks').split(";") : [];
+}
 
-  function saveTasks(tasks) {
-    localStorage.setItem('tasks', tasks.join(";"));
-  }
+const index = localStorage.getItem('selectedIndex');
+const tasks = getTasks();
+const task = tasks[index];
 
-  function renderDetail() {
-    const tasks = getTasks();
-    const index = localStorage.getItem('selectedIndex');
-    if (index === null || !tasks[index]) {
-      document.getElementById('taskDetail').innerHTML = "<p>해당 과제를 찾을 수 없습니다.</p>";
-      return;
-    }
+if (task) {
+  const parts = task.split("|");
+  document.getElementById('taskDetail').innerHTML = `
+    <p><strong>Title:</strong> ${parts[0]}</p>
+    <p><strong>Due:</strong> ${parts[1]}</p>
+    <p><strong>Detail:</strong> ${parts[2]}</p>
+    <p><strong>Finish:</strong> ${parts[3]}</p>
+    <p><strong>Priority:</strong> ${parts[4]}</p>
+    <p><strong>Category:</strong> ${parts[5]}</p>
+  `;
+} else {
+  document.getElementById('taskDetail').innerHTML = "<p>과제를 찾을 수 없습니다.</p>";
+}
 
-    const [title, due, detail, finish, priority, category] = tasks[index].split("|");
-    document.getElementById('taskDetail').innerHTML = `
-      <h3>${title}</h3>
-      <p><strong>Due:</strong> ${due}</p>
-      <p><strong>Detail:</strong> ${detail}</p>
-      <p><strong>Finish:</strong> ${finish}</p>
-      <p><strong>Priority:</strong> ${priority}</p>
-      <p><strong>Category:</strong> ${category}</p>
-    `;
-  }
+function goEdit() {
+  window.location.href = "edit.html";
+}
 
-  function goEdit() {
-    window.location.href = 'edit.html';
-  }
+function deleteTask() {
+  if (!confirm("Do you want to delete this item?")) return;
+  tasks.splice(index, 1);
+  localStorage.setItem('tasks', tasks.join(";"));
+  window.location.href = "index.html";
+}
 
-  function deleteTask() {
-    if (!confirm("Do you want to delete this item?")) return;
-    const tasks = getTasks();
-    const index = localStorage.getItem('selectedIndex');
-    tasks.splice(index, 1);
-    saveTasks(tasks);
-    alert("삭제되었습니다.");
-    window.location.href = 'index.html';
-  }
-
-  window.onload = renderDetail;
+function goList() {
+  window.location.href = "index.html";
+}
 </script>
 </body>
 </html>

@@ -4,82 +4,85 @@
   <title>Edit Task</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="my.css">
 </head>
 <body>
-  <div class="container">
-    <h2>과제 수정</h2>
-    <form id="editForm" onsubmit="return false;">
-      <div class="form-group">
-        <label>Title</label>
-        <input type="text" id="title" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Due Day</label>
-        <input type="date" id="due" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Detail</label>
-        <input type="text" id="detail" class="form-control">
-      </div>
-      <div class="form-group">
-        <label>Finish</label>
-        <select id="finish" class="form-control">
-          <option value="Yes">Yes</option>
-          <option value="No">No</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Priority</label>
-        <select id="priority" class="form-control">
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Category</label>
-        <input type="text" id="category" class="form-control">
-      </div>
-      <button class="btn btn-success" onclick="submitEdit()">Submit</button>
-      <button class="btn btn-secondary" onclick="cancelEdit()">Cancel</button>
-    </form>
-  </div>
+<div class="container">
+  <h2>과제 수정</h2>
+  <form id="editForm" onsubmit="return false;">
+    <div class="form-group">
+      <label>Title</label>
+      <input type="text" id="title">
+    </div>
+    <div class="form-group">
+      <label>Due Day</label>
+      <input type="date" id="due">
+    </div>
+    <div class="form-group">
+      <label>Detail</label>
+      <input type="text" id="detail">
+    </div>
+    <div class="form-group">
+      <label>Finish</label>
+      <select id="finish">
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Priority</label>
+      <select id="priority">
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Category</label>
+      <input type="text" id="category">
+    </div>
+    <button class="btn-success" onclick="submitEdit()">Submit</button>
+    <button class="btn-secondary" onclick="cancelEdit()">Cancel</button>
+  </form>
+</div>
 
-  <script>
-    const index = localStorage.getItem('selectedIndex');
-    const tasks = localStorage.getItem('tasks') ? localStorage.getItem('tasks').split(";") : [];
+<script>
+const index = localStorage.getItem('selectedIndex');
+const tasks = localStorage.getItem('tasks') ? localStorage.getItem('tasks').split(";") : [];
 
-    if (tasks[index]) {
-      const parts = tasks[index].split("|");
-      document.getElementById('title').value = parts[0];
-      document.getElementById('due').value = parts[1];
-      document.getElementById('detail').value = parts[2];
-      document.getElementById('finish').value = parts[3];
-      document.getElementById('priority').value = parts[4];
-      document.getElementById('category').value = parts[5];
-    }
+if (tasks[index]) {
+  const parts = tasks[index].split("|");
+  document.getElementById('title').value = parts[0];
+  document.getElementById('due').value = parts[1];
+  document.getElementById('detail').value = parts[2];
+  document.getElementById('finish').value = parts[3];
+  document.getElementById('priority').value = parts[4];
+  document.getElementById('category').value = parts[5];
+}
 
-    function submitEdit() {
-      const title = document.getElementById('title').value.trim();
-      const due = document.getElementById('due').value.trim();
-      const detail = document.getElementById('detail').value.trim();
-      const finish = document.getElementById('finish').value.trim();
-      const priority = document.getElementById('priority').value.trim();
-      const category = document.getElementById('category').value.trim();
+function submitEdit() {
+  const title = document.getElementById('title').value.trim();
+  const due = document.getElementById('due').value.trim();
+  const detail = document.getElementById('detail').value.trim();
+  const finish = document.getElementById('finish').value.trim();
+  const priority = document.getElementById('priority').value.trim();
+  const category = document.getElementById('category').value.trim();
 
-      if (!title || !due || !detail || !finish || !priority || !category) {
-        alert("모든 필드를 입력해주세요!");
-        return;
-      }
+  if (!title || !due || !detail || !finish || !priority || !category) {
+    alert("모든 필드를 입력해주세요!");
+    return;
+  }
 
-      tasks[index] = `${title}|${due}|${detail}|${finish}|${priority}|${category}`;
-      localStorage.setItem('tasks', tasks.join(";"));
-      window.location.href = "index.html";
-    }
+  if (!confirm("Do you want to edit this item?")) return;
 
-    function cancelEdit() {
-      window.location.href = "index.html";
-    }
-  </script>
+  tasks[index] = `${title}|${due}|${detail}|${finish}|${priority}|${category}`;
+  localStorage.setItem('tasks', tasks.join(";"));
+  window.location.href = "index.html";
+}
+
+function cancelEdit() {
+  window.location.href = "index.html";
+}
+</script>
+</body>
+</html>

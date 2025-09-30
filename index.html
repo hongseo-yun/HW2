@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="my.css">
 </head>
 <body>
+
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -23,9 +24,11 @@
     </ul>
   </div>
 </nav>
-
-<div class="container-fluid text-center">
+  
+<div class="container-fluid text-center">    
   <div class="row content">
+
+    <!-- 왼쪽 사이드바 -->
     <div class="col-sm-2 sidenav">
       <div class="ph">취미</div>
       <p><a href="#">좋아하는 책</a></p>
@@ -37,27 +40,29 @@
       <p><a href="#">기타 해야할 일</a></p>
     </div>
 
-    <div class="col-sm-8">
+    <!-- 중앙 컨텐츠 -->
+    <div class="col-sm-8 text-left">
       <div class="up">
         <h1>Welcome to CRUD Program</h1>
       </div>
-      <hr>
-      <h3>
-        <div class="sub">
-          <h1>[과제 목록]</h1>
-          <a href="add.html" class="btn btn-success" style="margin-bottom:10px;">Add</a>
-        </div>
-      </h3>
+      <div class="sec-up">
+        <hr>
+      <h3>[과제 목록]</h3>
+      <button class="btn btn-success" onclick="window.location.href='add.html'">Add</button>
 
-      <div class="list-a">
-        <ul id="itemList"></ul>
+      </div>
+      
+      <div class="list-a" style="margin-top:15px;">
+        <ul id="itemList" style="padding-left:0;"></ul>
       </div>
     </div>
 
+    <!-- 오른쪽 광고 -->
     <div class="col-sm-2 sidenav">
       <div class="well"><p>ADS</p></div>
       <div class="well"><p>ADS</p></div>
     </div>
+
   </div>
 </div>
 
@@ -66,72 +71,71 @@
 </footer>
 
 <script>
-  const initialTasks = [
-    "알고리즘 과제|2025-09-30|문제 1~3 해결|No|High|Study",
-    "자료구조 과제|2025-10-02|코드 작성 및 보고서|No|Medium|Study",
-    "웹 프로젝트|2025-10-05|프론트엔드 디자인 완성|Yes|High|Work",
-    "DB 과제|2025-10-07|ERD 다이어그램 제출|No|Low|Study",
-    "영어 에세이|2025-10-08|1500자 이상 작성|No|Low|Personal",
-    "통계 레포트|2025-10-09|데이터 분석 및 결과|Yes|Medium|Study",
-    "네트워크 과제|2025-10-10|TCP 시뮬레이션|No|High|Study",
-    "운영체제 과제|2025-10-12|프로세스 관리 보고서|No|Medium|Study",
-    "오픈소스 스튜디오|2025-10-13|CRUD 웹앱 완성|No|High|Work",
-    "수학 과제|2025-10-15|증명문제 풀이|Yes|Low|Study"
-  ];
+const initialTasks = [
+  "알고리즘 과제|2025-09-30|문제 1~3 해결|No|High|Study",
+  "자료구조 과제|2025-10-02|코드 작성 및 보고서|No|Medium|Study",
+  "웹 프로젝트|2025-10-05|프론트엔드 디자인 완성|Yes|High|Work",
+  "DB 과제|2025-10-07|ERD 다이어그램 제출|No|Low|Study",
+  "영어 에세이|2025-10-08|1500자 이상 작성|No|Low|Personal",
+  "통계 레포트|2025-10-09|데이터 분석 및 결과|Yes|Medium|Study",
+  "네트워크 과제|2025-10-10|TCP 시뮬레이션|No|High|Study",
+  "운영체제 과제|2025-10-12|프로세스 관리 보고서|No|Medium|Study",
+  "오픈소스 스튜디오|2025-10-13|CRUD 웹앱 완성|No|High|Work",
+  "수학 과제|2025-10-15|증명문제 풀이|Yes|Low|Study"
+];
 
-  function getTasks() {
-    let data = localStorage.getItem('tasks');
-    if (!data) {
-      localStorage.setItem('tasks', initialTasks.join(";"));
-      return initialTasks.slice();
-    }
-    return data.split(";");
+function getTasks() {
+  let data = localStorage.getItem('tasks');
+  if (!data) {
+    localStorage.setItem('tasks', initialTasks.join(";"));
+    return initialTasks.slice();
   }
+  return data.split(";");
+}
 
-  function saveTasks(tasks) {
-    localStorage.setItem('tasks', tasks.join(";"));
-  }
+function saveTasks(tasks) {
+  localStorage.setItem('tasks', tasks.join(";"));
+}
 
-  function renderTasks() {
-    const tasks = getTasks();
-    const list = document.getElementById('itemList');
-    list.innerHTML = '';
+function renderTasks() {
+  const tasks = getTasks();
+  const list = document.getElementById('itemList');
+  list.innerHTML = '';
 
-    tasks.forEach((taskStr, index) => {
-      const [title, due, detail, finish, priority, category] = taskStr.split("|");
+  tasks.forEach((task, index) => {
+    const parts = task.split("|");
+    const li = document.createElement('li');
+    li.className = 'list-card';
+    li.style.listStyle = 'none';
+    li.innerHTML = `
+      <strong class="task-title" onclick="goView(${index})" style="cursor:pointer;">${parts[0]}</strong><br>
+      <strong>Due:</strong> ${parts[1]}<br>
+      <strong>Detail:</strong> ${parts[2]}<br>
+      <strong>Finish:</strong> ${parts[3]}<br>
+      <strong>Priority:</strong> ${parts[4]}<br>
+      <strong>Category:</strong> ${parts[5]}
+      <button class="delete-btn btn btn-danger" onclick="deleteTask(event, ${index})">Delete</button>
+    `;
+    list.appendChild(li);
+  });
+}
 
-      const li = document.createElement('li');
-      li.className = 'list-card';
-      li.innerHTML = `
-        <strong class="task-title" onclick="goView(${index})" style="cursor:pointer;">
-          ${title}
-        </strong><br>
-        <strong>Due:</strong> ${due} <br>
-        <strong>Detail:</strong> ${detail} <br>
-        <strong>Finish:</strong> ${finish} <br>
-        <strong>Priority:</strong> ${priority} <br>
-        <strong>Category:</strong> ${category}
-        <button class="delete-btn" onclick="deleteTask(event, ${index})">Delete</button>
-      `;
-      list.appendChild(li);
-    });
-  }
+function deleteTask(event, index) {
+  event.stopPropagation();
+  if (!confirm("Do you want to delete this item?")) return;
+  const tasks = getTasks();
+  tasks.splice(index, 1);
+  saveTasks(tasks);
+  renderTasks();
+}
 
-  function deleteTask(event, index) {
-    event.stopPropagation();
-    if (!confirm("Do you want to delete this item?")) return;
-    const tasks = getTasks();
-    tasks.splice(index, 1);
-    saveTasks(tasks);
-    renderTasks();
-  }
+function goView(index) {
+  localStorage.setItem('selectedIndex', index);
+  window.location.href = 'view.html';
+}
 
-  function goView(index) {
-    localStorage.setItem('selectedIndex', index);
-    window.location.href = 'view.html';
-  }
-
-  window.onload = renderTasks;
+window.onload = renderTasks;
 </script>
+
 </body>
 </html>
