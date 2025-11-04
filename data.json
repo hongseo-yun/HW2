@@ -1,0 +1,94 @@
+{
+  "tasks": [
+    {
+      "id": "1",
+      "title": "주짓수하기",
+      "dueDay": "2025-11-10",
+      "detail": "체육관에서 운동하기",
+      "finish": "No",
+      "priority": "High",
+      "category": "운동"
+    },
+    {
+      "id": "2",
+      "title": "과제하기",
+      "dueDay": "2025-11-06",
+      "detail": "웹 프로그래밍 과제",
+      "finish": "No",
+      "priority": "High",
+      "category": "공부"
+    },
+    {
+      "id": "3",
+      "title": "새새밥고",
+      "dueDay": "2025-11-07",
+      "detail": "강아지 밥 챙겨주기",
+      "finish": "Yes",
+      "priority": "Low",
+      "category": "일상"
+    },
+    {
+      "id": "4",
+      "title": "영화보기",
+      "dueDay": "2025-11-08",
+      "detail": "친구랑 영화관 가기",
+      "finish": "No",
+      "priority": "Medium",
+      "category": "취미"
+    },
+    {
+      "id": "5",
+      "title": "데이트하기",
+      "dueDay": "2025-11-09",
+      "detail": "카페에서 커피 마시기",
+      "finish": "No",
+      "priority": "High",
+      "category": "개인"
+    },
+    {
+      "id": "6",
+      "title": "성경읽기",
+      "dueDay": "2025-11-05",
+      "detail": "시편 23편 읽기",
+      "finish": "Yes",
+      "priority": "Medium",
+      "category": "영성"
+    },
+    {
+      "id": "7",
+      "title": "양덕가서놀기",
+      "dueDay": "2025-11-12",
+      "detail": "친구들이랑 놀기",
+      "finish": "No",
+      "priority": "Low",
+      "category": "여가"
+    },
+    {
+      "id": "8",
+      "title": "야식먹기",
+      "dueDay": "2025-11-05",
+      "detail": "치킨 시켜먹기",
+      "finish": "No",
+      "priority": "Low",
+      "category": "식사"
+    },
+    {
+      "id": "9",
+      "title": "동아리가기",
+      "dueDay": "2025-11-11",
+      "detail": "회의 참석하기",
+      "finish": "No",
+      "priority": "Medium",
+      "category": "학교"
+    },
+    {
+      "id": "10",
+      "title": "소그룹모임하기",
+      "dueDay": "2025-11-13",
+      "detail": "교회에서 모임",
+      "finish": "No",
+      "priority": "Medium",
+      "category": "모임"
+    }
+  ]
+}
