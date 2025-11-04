@@ -101,17 +101,41 @@
 
 
   function updateData(id) {
-    const newTitle = prompt("새 제목을 입력하세요");
-    if (!newTitle) return;
+  const newTitle = prompt("새 제목을 입력하세요");
+  const newDue = prompt("새 마감일(YYYY-MM-DD)을 입력하세요");
+  const newDetail = prompt("새 내용(Detail)을 입력하세요");
+  const newFinish = prompt("완료 여부(Yes/No)를 입력하세요");
+  const newPriority = prompt("새 우선순위(Low/Medium/High)를 입력하세요");
+  const newCategory = prompt("새 카테고리를 입력하세요");
 
-    const xhr = new XMLHttpRequest();
-    xhr.onload = () => {
-      if (xhr.status === 200) getStudents();
-    };
-    xhr.open("PATCH", "http://localhost:3001/tasks/" + id);
-    xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-    xhr.send(JSON.stringify({ title: newTitle }));
+  
+  const updateObj = {};
+  if (newTitle) updateObj.title = newTitle;
+  if (newDue) updateObj.dueDay = newDue;
+  if (newDetail) updateObj.detail = newDetail;
+  if (newFinish) updateObj.finish = newFinish;
+  if (newPriority) updateObj.priority = newPriority;
+  if (newCategory) updateObj.category = newCategory;
+
+  if (Object.keys(updateObj).length === 0) {
+    alert("변경할 값이 없습니다.");
+    return;
   }
+
+  const xhr = new XMLHttpRequest();
+  xhr.onload = () => {
+    if (xhr.status === 200) {
+      alert("수정 완료!");
+      getStudents();
+    } else {
+      alert("수정 실패: " + xhr.status);
+    }
+  };
+  xhr.open("PATCH", "http://localhost:3001/tasks/" + id);
+  xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+  xhr.send(JSON.stringify(updateObj));
+}
+
 
   function makeList(data) {
     let str = "";
